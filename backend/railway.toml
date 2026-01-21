@@ -1,8 +1,0 @@
-[build]
-builder = "nixpacks"
-
-[build.buildpacks]
-nixpacks = "c"
-
-[env]
-NIXPACKS_PYTHON_VERSION = "3.10"
