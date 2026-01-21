@@ -1,0 +1,37 @@
+# Fly.io app configuration
+app = "lungs-backend"
+primary_region = "sjc"
+
+[build]
+  image = "flyio/rails:latest"
+  builder = "paackages"
+
+[build.args]
+  BUILDKIT_INLINE_CACHE = "1"
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 8000
+  processes = ["app"]
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+
+  [services.http_checks]
+    enabled = true
+    uri = "/health"
+    interval = 10000
+    timeout = 5000
+    grace_period = "5s"
+    method = "GET"
+    protocol = "http"
+    restart_limit = 0
+
+[env]
+  PYTHONUNBUFFERED = "true"
